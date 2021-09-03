@@ -29,14 +29,14 @@ service google-fluentd restart &
 # Install dependencies from apt
 apt-get update
 apt-get install -yq \
-    git build-essential supervisor python python-dev python-pip libffi-dev \
+    git build-essential supervisor python3 python3-dev python3-pip libffi-dev \
     libssl-dev
 
 # Create a pythonapp user. The application will run as this user.
 useradd -m -d /home/pythonapp pythonapp
 
 # pip from apt is out of date, so make it update itself and install virtualenv.
-pip install --upgrade pip virtualenv
+pip3 install --upgrade pip virtualenv
 
 # Get the source code from the Google Cloud Repository
 # git requires $HOME and it's not set during the startup script.
@@ -49,7 +49,7 @@ sed -i s/your-project-id/"$PROJECTID"/ /opt/app/compute-engine/config.py
 
 # Install app dependencies
 virtualenv /opt/app/compute-engine/env
-/opt/app/compute-engine/env/bin/pip install -r /opt/app/compute-engine/requirements.txt
+/opt/app/compute-engine/env/bin/pip3 install -r /opt/app/compute-engine/requirements.txt
 
 # Make sure the pythonapp user owns the application code
 chown -R pythonapp:pythonapp /opt/app
